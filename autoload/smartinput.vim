@@ -72,7 +72,8 @@ function! smartinput#define_default_rules()  "{{{2
     let self.table[a:name] = a:urules
   endfunction
   call urules.add('()', [
-  \   {'at': '\%#', 'char': '(', 'input': '()<Left>'},
+  \   {'at': '\%#[ )}\]]', 'char': '(', 'input': '()<Left>'},
+  \   {'at': '\%#$', 'char': '(', 'input': '()<Left>'},
   \   {'at': '\%#\_s*)', 'char': ')', 'input': '<C-r>=smartinput#_leave_block('')'')<Enter><Right>'},
   \   {'at': '(\%#)', 'char': '<BS>', 'input': '<BS><Del>'},
   \   {'at': '()\%#', 'char': '<BS>', 'input': '<BS><BS>'},
@@ -80,22 +81,24 @@ function! smartinput#define_default_rules()  "{{{2
   \   {'at': '(\%#)', 'char': '<Enter>', 'input': '<Enter><Enter><Up><Esc>"_S'},
   \ ])
   call urules.add('[]', [
-  \   {'at': '\%#', 'char': '[', 'input': '[]<Left>'},
+  \   {'at': '\%#[ )}\]]', 'char': '[', 'input': '[]<Left>'},
+  \   {'at': '\%#$', 'char': '[', 'input': '[]<Left>'},
   \   {'at': '\%#\_s*\]', 'char': ']', 'input': '<C-r>=smartinput#_leave_block('']'')<Enter><Right>'},
   \   {'at': '\[\%#\]', 'char': '<BS>', 'input': '<BS><Del>'},
   \   {'at': '\[\]\%#', 'char': '<BS>', 'input': '<BS><BS>'},
   \   {'at': '\\\%#', 'char': '[', 'input': '['},
   \ ])
   call urules.add('{}', [
-  \   {'at': '\%#', 'char': '{', 'input': '{}<Left>'},
+  \   {'at': '\%#[ )}\]]', 'char': '{', 'input': '{}<Left>'},
+  \   {'at': '\%#$', 'char': '{', 'input': '{}<Left>'},
   \   {'at': '\%#\_s*}', 'char': '}', 'input': '<C-r>=smartinput#_leave_block(''}'')<Enter><Right>'},
   \   {'at': '{\%#}', 'char': '<BS>', 'input': '<BS><Del>'},
   \   {'at': '{}\%#', 'char': '<BS>', 'input': '<BS><BS>'},
   \   {'at': '\\\%#', 'char': '{', 'input': '{'},
   \   {'at': '{\%#}', 'char': '<Enter>', 'input': '<Enter><Enter><Up><Esc>"_S'},
   \ ])
-  call urules.add('''''', [
-  \   {'at': '\%#', 'char': '''', 'input': '''''<Left>'},
+  call urules.add("''", [
+  \   {'at': '\(\w\)\@<!\%#\(\w\)\@!', 'char': '''', 'input': '''''<Left>'},
   \   {'at': '\%#''\ze', 'char': '''', 'input': '<Right>'},
   \   {'at': '''\%#''', 'char': '<BS>', 'input': '<BS><Del>'},
   \   {'at': '''''\%#', 'char': '<BS>', 'input': '<BS><BS>'},
@@ -105,7 +108,7 @@ function! smartinput#define_default_rules()  "{{{2
   " languages, \ is usually used to escape next charcters in most languages.
   " So that rules for strong quote are written as additional ones for specific
   " 'filetype's which override the default behavior.
-  call urules.add(''''' as strong quote', [
+  call urules.add("'' as strong quote", [
   \   {'at': '\%#''', 'char': '''', 'input': '<Right>'},
   \ ])
   call urules.add('''''''', [
@@ -115,7 +118,7 @@ function! smartinput#define_default_rules()  "{{{2
   \   {'at': '''''''''''''\%#', 'char': '<BS>', 'input': '<BS><BS><BS><BS><BS><BS>'},
   \ ])
   call urules.add('""', [
-  \   {'at': '\%#', 'char': '"', 'input': '""<Left>'},
+  \   {'at': '\(\w\)\@<!\%#\(\w\)\@!', 'char': '"', 'input': '""<Left>'},
   \   {'at': '\%#"', 'char': '"', 'input': '<Right>'},
   \   {'at': '"\%#"', 'char': '<BS>', 'input': '<BS><Del>'},
   \   {'at': '""\%#', 'char': '<BS>', 'input': '<BS><BS>'},
@@ -159,6 +162,7 @@ function! smartinput#define_default_rules()  "{{{2
   \ ])
   call urules.add('Vim script comment', [
   \   {'at': '^\s*\%#', 'char': '"', 'input': '"'},
+  \   {'at': '"\%#"', 'char': '<Space>', 'input': '<Space><Del>'},
   \ ])
   "}}}
 
