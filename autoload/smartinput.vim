@@ -309,6 +309,9 @@ function! s:_encode_for_map_char_expr(rhs_char)
 endfunction
 
 function! s:_trigger_or_fallback(char, fallback)
+  if !s:smartinput_enabled || get(b:, 'smartinput_disable_local', 0)
+    return a:char
+  endif
   let nrule =
   \ mode() =~# '\v^(i|R|Rv)$'
   \ ? s:find_the_most_proper_rule_in_insert_mode(
@@ -588,6 +591,9 @@ function! s:do_initial_setup()  "{{{2
   if !exists('g:smartinput_no_default_key_mappings')
     call smartinput#map_trigger_keys()
   endif
+
+  let s:smartinput_enabled = 1
+  command! SmartInputToggleEnabled let s:smartinput_enabled = !s:smartinput_enabled
 endfunction
 
 
