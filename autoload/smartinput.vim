@@ -98,11 +98,12 @@ function! smartinput#define_default_rules()  "{{{2
   \   {'at': '{\%#}', 'char': '<Enter>', 'input': '<Enter><Enter><Up><Esc>"_S'},
   \ ])
   call urules.add("''", [
-  \   {'at': '\(\w\)\@<!\%#\(\w\)\@!', 'char': '''', 'input': '''''<Left>'},
+  \   {'at': '\%#', 'char': '''', 'input': '''''<Left>'},
   \   {'at': '\%#''\ze', 'char': '''', 'input': '<Right>'},
   \   {'at': '''\%#''', 'char': '<BS>', 'input': '<BS><Del>'},
   \   {'at': '''''\%#', 'char': '<BS>', 'input': '<BS><BS>'},
-  \   {'at': '\\\%#\ze', 'char': '''', 'input': ''''},
+  \   {'at': '\w\%#', 'char': '''', 'input': ''''},
+  \   {'at': '\\\%#\ze\ze', 'char': '''', 'input': ''''},
   \ ])
   " Though strong quote is a useful feature and it is supported in several
   " languages, \ is usually used to escape next charcters in most languages.
@@ -118,11 +119,12 @@ function! smartinput#define_default_rules()  "{{{2
   \   {'at': '''''''''''''\%#', 'char': '<BS>', 'input': '<BS><BS><BS><BS><BS><BS>'},
   \ ])
   call urules.add('""', [
-  \   {'at': '\(\w\)\@<!\%#\(\w\)\@!', 'char': '"', 'input': '""<Left>'},
-  \   {'at': '\%#"', 'char': '"', 'input': '<Right>'},
+  \   {'at': '\%#', 'char': '"', 'input': '""<Left>'},
+  \   {'at': '\%#"\ze', 'char': '"', 'input': '<Right>'},
   \   {'at': '"\%#"', 'char': '<BS>', 'input': '<BS><Del>'},
   \   {'at': '""\%#', 'char': '<BS>', 'input': '<BS><BS>'},
-  \   {'at': '\\\%#', 'char': '"', 'input': '"'},
+  \   {'at': '\w\%#', 'char': '"', 'input': '"'},
+  \   {'at': '\\\%#\ze\ze', 'char': '"', 'input': '"'},
   \ ])
   call urules.add('"""', [
   \   {'at': '""\%#', 'char': '"', 'input': '""""<Left><Left><Left>'},
